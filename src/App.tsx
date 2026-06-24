@@ -12,10 +12,6 @@ function App() {
       <Content />
       <Footer />
       
-      <div className="ticks"></div>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
     </>
   )
 }

@@ -1,0 +1,20 @@
+.formatSelection{
+    display: flex;
+    align-items: center;         /* Aligns everything perfectly on the same vertical center line */
+    justify-content: center;     /* Centers the entire row horizontally */
+    gap: 12px;                   /* Adds uniform spacing between the text, dropdowns, and arrow */
+    flex-wrap: wrap;             /* Allows it to wrap cleanly if the screen gets too narrow */
+    margin: 25px 0;
+    font-size: medium;
+    font-family: cursive;
+    margin: 10px 0px;
+}
+.fileLabel{
+    font-size: 140%;
+}
+.formatDropdown{
+    font-size: 120%;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+}

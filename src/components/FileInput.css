@@ -1,0 +1,55 @@
+/* Container to give it some spacing inside the form */
+.upload-container {
+    margin: 25px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* The custom box styling */
+.custom-upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 350px;
+    height: 140px;
+    background-color: rgba(255, 255, 255, 0.08); /* Subtle transparent white overlay */
+    border: 2px dashed rgba(255, 255, 255, 0.6); /* Clean dashed border */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+/* Hover state effects */
+.custom-upload-box:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Sizing and coloring the cloud icon */
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    fill: #ffffff;
+    margin-bottom: 8px;
+    transition: transform 0.25s ease;
+}
+
+.custom-upload-box:hover .upload-icon {
+    transform: scale(1.1); /* Subtle pulse on the icon when hovering the box */
+}
+
+/* Styling the "Upload File" text */
+.upload-text {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* The magic trick: Hide the original ugly system input completely */
+.hidden-input {
+    display: none;
+}

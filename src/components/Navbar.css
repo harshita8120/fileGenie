@@ -1,7 +1,9 @@
 .navbar{
     position: relative;
     width:100%;
-    height:2000px;
+    height:auto;
+    padding: 0;
+    display: flex;
     justify-content: center;
     background-color: white;
 }

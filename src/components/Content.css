@@ -1,3 +1,5 @@
+@import url('https://googleapis.com');
+
 .content{
     position: relative;
     background-color: #6b945d;
@@ -5,13 +7,11 @@
     padding: 12px;
 }
 .ad-text{
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 20px;
+    font-family:'Crimson Pro';
+    font-size: 200%;
     text-align: center;
     font-weight: 100;
-}
-.content br{
-    padding:800px;
+    line-height: 1.5;
 }
 .wavy-hr{
     border: none; 
@@ -23,11 +23,8 @@
 .heading{
    font-size: large;
     font-family: cursive; 
-}
-.fileSelection{
-    font-size: medium;
-    font-family: cursive;
-    margin: 10px 0px;
+    font-size: 180%;
+    margin: 10px;
 }
 .convert-btn{
     background-color: white;
