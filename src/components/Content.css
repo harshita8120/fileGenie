@@ -2,12 +2,12 @@
 
 .content{
     position: relative;
-    background-color: #6b945d;
-    color: white;
+    background-color: var(--color-grayGreen);
+    color: var(--color-white);
     padding: 12px;
 }
 .ad-text{
-    font-family:'Crimson Pro';
+    font-family: var(--font-handwriting);
     font-size: 200%;
     text-align: center;
     font-weight: 100;
@@ -22,14 +22,14 @@
 }
 .heading{
    font-size: large;
-    font-family: cursive; 
+    font-family: var(--font-heading); 
     font-size: 180%;
     margin: 10px;
 }
 .convert-btn{
-    background-color: white;
-    color:#6b945d;
-    font-family: cursive;
+    background-color: var(--color-white);
+    color:var(--color-grayGreen);
+    font-family: var(--font-text);
     font-size: 20px;
     border:none;
     border-radius: 8px;

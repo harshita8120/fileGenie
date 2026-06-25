@@ -5,7 +5,7 @@
     padding: 40px 20px;
     /* display: flex; */
     justify-content: center;
-    background-color: white;
+    background-color: var(--color-white);
     margin-bottom:0;
 }
 .footer img{
@@ -14,7 +14,7 @@
 }
 .privacy, .copyright, .rightsReserved{
     text-align: center;
-    color: grey;
+    color: var(--color-grey);
 }
 .privacy{
     font-size: 14px;
@@ -22,7 +22,7 @@
 .footer hr{
     justify-content: center;
     width: 75%;
-    color: grey;
+    color: var(--color-grey);
 }
 .copyright, .rightsReserved{
     font-size: 12px;
