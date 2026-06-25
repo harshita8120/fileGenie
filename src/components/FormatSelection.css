@@ -7,7 +7,7 @@
     flex-wrap: wrap;             /* Allows it to wrap cleanly if the screen gets too narrow */
     font-size: medium;
     font-family: var(--font-text);
-    margin: 10px 0px;
+    margin: 10px 0px 70px 0px;
 }
 .fileLabel{
     font-size: 140%;
