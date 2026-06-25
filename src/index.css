@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kawaii+Hand&family=Itim&family=Patrick+Hand&family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap');
 
 :root {
   --color-grayGreen: #6b945d;
@@ -8,7 +8,7 @@
 
   --font-heading: 'Fredoka', sans-serif;
   --font-text: 'Quicksand', sans-serif;
-  --font-handwriting:'Kawaii Hand';
+  --font-handwriting:'Dancing Script';
 }
 
 body {
