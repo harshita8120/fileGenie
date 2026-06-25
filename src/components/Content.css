@@ -50,6 +50,7 @@
     font-family: var(--font-heading); 
     font-size: 1.5rem;
     margin: 10px;
+    text-align: center;
 }
 .convert-btn{
     background-color: var(--color-white);
