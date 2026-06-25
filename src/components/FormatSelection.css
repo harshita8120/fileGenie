@@ -1,10 +1,10 @@
 .formatSelection{
+    gap: 12px;
+    position: relative;
     display: flex;
     align-items: center;         /* Aligns everything perfectly on the same vertical center line */
     justify-content: center;     /* Centers the entire row horizontally */
-    gap: 12px;                   /* Adds uniform spacing between the text, dropdowns, and arrow */
     flex-wrap: wrap;             /* Allows it to wrap cleanly if the screen gets too narrow */
-    margin: 25px 0;
     font-size: medium;
     font-family: var(--font-text);
     margin: 10px 0px;
@@ -12,13 +12,67 @@
 .fileLabel{
     font-size: 140%;
 }
-.formatDropdown{
-    font-size: 120%;
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
-}
 .formatSelection svg{
     height: 4vw;
     width: 7vw;
+}
+.dropdown-selector-box {
+    background-color: white;
+    color: #2D3A2D;
+    padding: 12px 16px;
+    border: 2px solid #E0e6e0;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+}
+.dropdown-selector-box svg{
+    width: 1.3vw;
+    height: 1.3vw;
+    font-weight: 500;
+    margin: 2px;
+}
+.dropdown-wrapper {
+    position: relative;
+    width: 220px;
+}
+
+
+.dropdown-selector-box:hover, .dropdown-selector-box.open {
+    border-color: var(--color-grayGreen);
+}
+.dropdown-list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 3px solid var(--color-white);
+    border-radius: 10px;
+    margin-top: 6px;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #2D3A2D;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-grayGreen); 
+    color: white; 
 }

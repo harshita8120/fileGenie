@@ -1,32 +1,104 @@
+import { useState, useEffect, useRef } from 'react';
 import './FormatSelection.css';
 
 export function FormatSelection() {
+    const [isOpenInput, setIsOpenInput] = useState(false);
+    const [selectedFormatInput, setSelectedFormatInput] = useState('');
+
+    const [isOpenOutput, setIsOpenOutput] = useState(false);
+    const [selectedFormatOutput, setSelectedFormatOutput] = useState('');
+
+    const formats = ['.jpg', '.jpeg', '.png', '.svg'];
+
+    const inputDropdownRef = useRef<HTMLDivElement>(null);
+    const outputDropdownRef = useRef<HTMLDivElement>(null);
+
+    // 2. Set up a global click listener
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (inputDropdownRef.current && !inputDropdownRef.current.contains(event.target as Node)) {
+                setIsOpenInput(false);
+            }
+            if (outputDropdownRef.current && !outputDropdownRef.current.contains(event.target as Node)) {
+                setIsOpenOutput(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const dropdowns = [
+        {
+            id: 'inputFile',
+            label: 'From:',
+            placeholder: 'Select your file format',
+            isOpen: isOpenInput,
+            setIsOpen: setIsOpenInput,
+            selected: selectedFormatInput,
+            setSelected: setSelectedFormatInput,
+            ref: inputDropdownRef
+        },
+        {
+            id: 'outputFile',
+            label: 'To:',
+            placeholder: 'Select the required file format',
+            isOpen: isOpenOutput,
+            setIsOpen: setIsOpenOutput,
+            selected: selectedFormatOutput,
+            setSelected: setSelectedFormatOutput,
+            ref: outputDropdownRef
+        }
+    ];
+
     return (
         <div className="formatSelection">
-            <label htmlFor="inputFile" className='fileLabel'>From: </label>
-            <select name="inputFile" id="inputFile" defaultValue="default" className='formatDropdown'>
-                <option value="default">Select your file format</option>
-                <option value=".jpg">.jpg</option>
-                <option value=".jpeg">.jpeg</option>
-                <option value=".png">.png</option>
-                <option value=".pdf">.pdf</option>
-                <option value=".docx">.docx</option>
-            </select>
+            {dropdowns.map((dropdown, index) => (
+                /* Using a blank fragment wrapper keeps the HTML completely flat! */
+                <article key={dropdown.id} style={{ display: 'contents' }}>
+                    <label htmlFor={dropdown.id} className='fileLabel'>{dropdown.label}</label>
 
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1.99974 13.0001L1.9996 11.0002L18.1715 11.0002L14.2218 7.05044L15.636 5.63623L22 12.0002L15.636 18.3642L14.2218 16.9499L18.1716 13.0002L1.99974 13.0001Z">
-                </path>
-            </svg>
+                    <div className='dropdown-wrapper' ref={dropdown.ref}>
+                        <input type="hidden" name={dropdown.id} value={dropdown.selected} />
+                        
+                        <div className='dropdown-selector-box' onClick={() => dropdown.setIsOpen(!dropdown.isOpen)}>
+                            {dropdown.selected === '' ? dropdown.placeholder : dropdown.selected}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                            </svg>
+                        </div>
 
-            <label htmlFor="outputFile" className='fileLabel'>To: </label>
-            <select name="outputFile" id="outputFile" defaultValue="default" className='formatDropdown'>
-                <option value="default">Select the required file format</option>
-                <option value=".jpg">.jpg</option>
-                <option value=".jpeg">.jpeg</option>
-                <option value=".png">.png</option>
-                <option value=".pdf">.pdf</option>
-                <option value=".docx">.docx</option>
-            </select>
+                        {dropdown.isOpen && (
+                            <div className="dropdown-list">
+                                <ul>
+                                    {formats.map((format) => (
+                                        <li 
+                                            key={format} 
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                                dropdown.setSelected(format);
+                                                dropdown.setIsOpen(false);
+                                            }}
+                                        >
+                                            {format}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* The middle arrow sits flat in the flex layout row */}
+                    {index === 0 && (
+                        <svg className="directional-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M1.99974 13.0001L1.9996 11.0002L18.1715 11.0002L14.2218 7.05044L15.636 5.63623L22 12.0002L15.636 18.3642L14.2218 16.9499L18.1716 13.0002L1.99974 13.0001Z"></path>
+                        </svg>
+                    )}
+                </article>
+            ))}
         </div>
     );
 }
