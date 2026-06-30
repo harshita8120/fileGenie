@@ -1,7 +1,9 @@
 .formatSelection{
-    gap: 12px;
+    gap: 24px;
+    width: 100%;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;         /* Aligns everything perfectly on the same vertical center line */
     justify-content: center;     /* Centers the entire row horizontally */
     flex-wrap: wrap;             /* Allows it to wrap cleanly if the screen gets too narrow */
@@ -75,4 +77,48 @@
 .dropdown-item:hover {
     background-color: var(--color-grayGreen); 
     color: white; 
+}
+.format-type-box {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 10px;
+}
+.mode-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.25s ease-in-out;
+}
+.mode-card.active {
+    background-color: #ffffff;
+    color: #2D3A2D;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: scale(1.03);
+}
+.mode-card.inactive {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.mode-card.inactive:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+.selectors-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;            /* Allows the row to wrap cleanly on mobile viewports */
+    gap: 16px;
+    width: 100%;
 }
