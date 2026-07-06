@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# FileGenie
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FileGenie is a fast, secure, full-stack web application designed for hassle-free file format conversion. Users can convert images, documents, and audio files completely free without compromising their data privacy.
 
-Currently, two official plugins are available:
+## Features & Site Content
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **100% Free & Secure:** No ads, no hidden paywalls, and absolutely no cookie tracking.
+- **Privacy First:** Uploaded files are processed securely and deleted from our servers within 24 hours.
+- **Multi-Format Support:**
+  - **Image:** Convert between popular image formats.
+  - **Document:** Seamlessly switch text and data file extensions.
+  - **Audio:** High-fidelity conversion.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React + TypeScript + Vite (Fast HMR & Optimized Bundling)
+- **Backend:** Node.js + Express.js (RESTful API Routing)
+- **Database:** MongoDB (User metadata & optional file session logging)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Project Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+fileGenie/
+├── backend/          # Express API server & database logic
+├── frontend/         # React application (Vite dev server)
+└── README.md         # Project documentation
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Installation & Setup
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 1. Prerequisites
+Make sure you have [Node.js](https://nodejs.org) installed.
+
+### 2. Backend Setup
+1. Open your terminal and navigate to the backend folder:
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the `backend/` directory and add your variables:
+   ```env
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   ```
+4. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+### 3. Frontend Setup
+1. Open a **new** terminal window and navigate to the frontend folder:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+
