@@ -64,7 +64,7 @@ export function FormatSelection() {
             isOpen: isOpenOutput,
             setIsOpen: setIsOpenOutput,
             selected: selectedFormatOutput,
-            setSelected: (format: FileExtension) => setSelectedFormatInput(format),
+            setSelected: (format: FileExtension) => setSelectedFormatOutput(format),
             ref: outputDropdownRef
         }
     ];
