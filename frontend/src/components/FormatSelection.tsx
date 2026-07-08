@@ -2,14 +2,25 @@ import { useState, useEffect, useRef, Fragment } from 'react';
 import type { FileCategory, FileExtension, ImageExtension, DocumentExtension, AudioExtension, DropdownConfig } from '../types/conversion';
 import './FormatSelection.css';
 
-export function FormatSelection() {
+interface FormatSelectionProps {
+    selectedFormatInput: FileExtension | '';
+    setSelectedFormatInput: (format: FileExtension | '') => void;
+    selectedFormatOutput: FileExtension | '';
+    setSelectedFormatOutput: (format: FileExtension | '') => void;
+    setUploadedFile: (file: File | null) => void
+}
+
+export function FormatSelection({
+    selectedFormatInput,
+    setSelectedFormatInput,
+    selectedFormatOutput,
+    setSelectedFormatOutput,
+    setUploadedFile
+}: FormatSelectionProps) {
+
     const [activeTab, setActiveTab] = useState<FileCategory>('image');
-
     const [isOpenInput, setIsOpenInput] = useState<boolean>(false);
-    const [selectedFormatInput, setSelectedFormatInput] = useState<FileExtension | ''>('');
-
     const [isOpenOutput, setIsOpenOutput] = useState<boolean>(false);
-    const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension | ''>('');
 
     const imageFormats: ImageExtension[] = ['.jpg', '.jpeg', '.png', '.svg', '.pdf'];
     const documentFormats: DocumentExtension[] = ['.docx', '.pptx', '.pdf'];
@@ -26,6 +37,7 @@ export function FormatSelection() {
         setSelectedFormatInput('');
         setIsOpenOutput(false);
         setSelectedFormatOutput('');
+        setUploadedFile(null);
     };
 
     // Global click listener to close dropdowns when clicking outside

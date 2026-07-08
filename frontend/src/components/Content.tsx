@@ -1,8 +1,38 @@
+import { useState} from 'react';
 import {FileInput} from './FileInput';
 import {FormatSelection} from './FormatSelection';
+import type { FileExtension } from '../types/conversion';
+import { differentFormat, formatNotSelected, fileNotUploaded } from '../utils/validation';
 import './Content.css';
 
 export function Content() {
+    const [selectedFormatInput, setSelectedFormatInput] = useState<FileExtension | ''>('');
+    const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension | ''>('');
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+    const isUploadDisabled = !selectedFormatInput || !selectedFormatOutput;
+    const isConvertDisabled = isUploadDisabled || !uploadedFile;
+
+    const handleUploadClick = (): boolean => {
+        return formatNotSelected(selectedFormatInput, selectedFormatOutput);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        // Run validations on form submit to prevent unnecessary spamming during render loops
+        if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) {
+            e.preventDefault(); 
+            return;
+        }
+        if (!differentFormat(selectedFormatInput, selectedFormatOutput)) {
+            e.preventDefault(); 
+            return;
+        }
+        if (!fileNotUploaded(uploadedFile, selectedFormatInput)) {
+            e.preventDefault(); 
+            return;
+        }
+    };
+
     return (
         <div className="content">
 
@@ -22,13 +52,40 @@ export function Content() {
 
             <hr className="wavy-hr"/>
 
-            <form action="/conversion" method="POST" encType="multipart/form-data">
+            <form action="/conversion" method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
 
                 <p className='heading'>Select your file type:</p>
 
-                <FormatSelection />
-                <FileInput />
-                <button type="submit" className='convert-btn'>Convert</button>
+                <FormatSelection 
+                    selectedFormatInput={selectedFormatInput}
+                    setSelectedFormatInput={setSelectedFormatInput}
+                    selectedFormatOutput={selectedFormatOutput}
+                    setSelectedFormatOutput={setSelectedFormatOutput}
+                    setUploadedFile={setUploadedFile}
+                />
+
+                <FileInput 
+                    selectedFormatInput={selectedFormatInput}
+                    uploadedFile={uploadedFile}
+                    setUploadedFile={setUploadedFile}
+                    isUploadDisabled={isUploadDisabled}
+                    onUploadClick={handleUploadClick}
+                />
+                <button 
+                    type="submit" 
+                    className={`convert-btn ${isConvertDisabled ? 'disabled' : ''}`}
+                    onClick={(e) => {
+                        if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) {
+                            e.preventDefault();
+                            return;
+                        }
+
+                        if (!fileNotUploaded(uploadedFile, selectedFormatInput)) {
+                            e.preventDefault();
+                            return;
+                        }
+                    }}
+                >Convert</button>
             </form>
 
             <div className="wave-divider wave-bottom">
