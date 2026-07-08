@@ -28,12 +28,22 @@
     transform: translateY(-2px); /* Slight lift effect */
 }
 
-/* Sizing and coloring the cloud icon */
+/* upload and replace icon */
 .upload-icon {
     width: 48px;
     height: 48px;
     fill: #ffffff;
     margin-bottom: 8px;
+    transition: transform 0.25s ease;
+}
+.upload-icon-hidden, .replace-icon-hidden{
+    display: none;
+}
+.replace-icon {
+    width: 44px;
+    height: 44px;
+    fill: #ffffff;
+    margin: 10px 0 1px 0;
     transition: transform 0.25s ease;
 }
 
@@ -48,6 +58,16 @@
     font-weight: 500;
     letter-spacing: 0.5px;
     font-family: var(--font-text);
+}
+.uploadedFile-text{
+    font-size: 1.1rem;
+    font-family: var(--font-text);
+    padding: 1vw;
+    text-align: center;
+
+    max-width: 90%;          /* Keeps text within the boundaries of the parent box */
+    word-break: break-all;   /* Safely wraps text to a new line if it hits the edge */
+    line-height: 1.4;
 }
 
 /* The magic trick: Hide the original ugly system input completely */

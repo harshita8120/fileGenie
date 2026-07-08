@@ -17,7 +17,7 @@ export function Content() {
         return formatNotSelected(selectedFormatInput, selectedFormatOutput);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.BaseSyntheticEvent) => {
         // Run validations on form submit to prevent unnecessary spamming during render loops
         if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) {
             e.preventDefault(); 
