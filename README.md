@@ -18,8 +18,17 @@ FileGenie is a fast, secure, full-stack web application designed for hassle-free
 - **Frontend:** React + TypeScript + Vite (Fast HMR & Optimized Bundling)
 - **Backend:** Node.js + Express.js (RESTful API Routing)
 - **Database:** MongoDB (User metadata & optional file session logging)
+- **Libraries:** Sharp (for image conversions)
 
 ---
+
+## Libraries
+
+- **sharp** does the actual image conversions, built on libvips.
+- **multer** handles multipart/form-data parsing and file upload middleware for Express.
+- **file-type** does the actual binary/magic-byte detection for verifying real file types.
+- **node-cron** powers the cleanup job's scheduling.
+- **tsx** dev-time TS runner.
 
 ## Project Structure
 
