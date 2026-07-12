@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { fileTypeFromBuffer } from 'file-type'; //checks the actual file type irrespective of extension
-import fs from 'fs/promises';
+import fsPromises from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { ImageConverter } from '../services/images/imageConverter.js';
@@ -42,7 +43,7 @@ export const convertImage = async (req: Request, res: Response) => {
     // write converted file to temp/ instead of sending directly
     const filename = `${randomUUID()}.${targetFormat}`;
     const storagePath = path.join(TEMP_DIR, filename);
-    await fs.writeFile(storagePath, outputBuffer);
+    await fsPromises.writeFile(storagePath, outputBuffer);
 
     // save metadata + expiry in MongoDB
     const expiresAt = new Date(Date.now() + EXPIRY_MINUTES * 60 * 1000);
@@ -65,5 +66,34 @@ export const convertImage = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err instanceof Error ? err.message : 'Conversion failed' });
+  }
+};
+
+export const downloadImage = async (req: Request, res: Response) => {
+  try {
+    const { fileId } = req.params;
+
+    const doc = await ConvertedFile.findById(fileId);
+
+    if (!doc) {
+      return res.status(404).json({ error: 'File not found or link invalid' });
+    }
+
+    if (doc.expiresAt < new Date()) {
+      return res.status(410).json({ error: 'This download link has expired' });
+    }
+
+    if (!fs.existsSync(doc.storagePath)) {
+      return res.status(404).json({ error: 'File no longer available' });
+    }
+
+    res.set('Content-Type', `image/${doc.outputFormat}`);
+    res.set('Content-Disposition', `attachment; filename=${doc.originalName}-converted.${doc.outputFormat}`);
+
+    const readStream = fs.createReadStream(doc.storagePath);
+    readStream.pipe(res);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Download failed' });
   }
 };
