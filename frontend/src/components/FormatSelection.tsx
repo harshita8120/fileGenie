@@ -26,7 +26,7 @@ export function FormatSelection({
     const [isOpenInput, setIsOpenInput] = useState<boolean>(false);
     const [isOpenOutput, setIsOpenOutput] = useState<boolean>(false);
 
-    const imageFormats: ImageExtension[] = ['.jpg', '.jpeg', '.png', '.svg', '.pdf'];
+    const imageFormats: ImageExtension[] = ['.jpeg', '.jpg', '.png', '.webp', '.avif', '.tiff', '.gif'];
     const documentFormats: DocumentExtension[] = ['.docx', '.pptx', '.pdf'];
     const audioFormats: AudioExtension[] = ['.mp3', '.wav', '.flac', '.aac'];
 
