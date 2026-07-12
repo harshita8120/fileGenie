@@ -7,7 +7,9 @@ interface FormatSelectionProps {
     setSelectedFormatInput: (format: FileExtension | '') => void;
     selectedFormatOutput: FileExtension | '';
     setSelectedFormatOutput: (format: FileExtension | '') => void;
-    setUploadedFile: (file: File | null) => void
+    setUploadedFile: (file: File | null) => void;
+    activeTab: FileCategory | 'image';
+    setActiveTab: (tab: FileCategory) => void;
 }
 
 export function FormatSelection({
@@ -15,10 +17,12 @@ export function FormatSelection({
     setSelectedFormatInput,
     selectedFormatOutput,
     setSelectedFormatOutput,
-    setUploadedFile
+    setUploadedFile,
+    activeTab,
+    setActiveTab
 }: FormatSelectionProps) {
 
-    const [activeTab, setActiveTab] = useState<FileCategory>('image');
+    
     const [isOpenInput, setIsOpenInput] = useState<boolean>(false);
     const [isOpenOutput, setIsOpenOutput] = useState<boolean>(false);
 

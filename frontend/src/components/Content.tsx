@@ -1,14 +1,17 @@
 import { useState} from 'react';
 import {FileInput} from './FileInput';
 import {FormatSelection} from './FormatSelection';
-import type { FileExtension } from '../types/conversion';
+import type { FileExtension, FileCategory } from '../types/conversion';
 import { differentFormat, formatNotSelected, fileNotUploaded } from '../utils/validation';
+import { convertImage, getDownloadUrl } from '../utils/api';
 import './Content.css';
 
 export function Content() {
     const [selectedFormatInput, setSelectedFormatInput] = useState<FileExtension | ''>('');
     const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension | ''>('');
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [activeTab, setActiveTab] = useState<FileCategory>('image');
+    const [isConverting, setIsConverting] = useState(false);
 
     const isUploadDisabled = !selectedFormatInput || !selectedFormatOutput;
     const isConvertDisabled = isUploadDisabled || !uploadedFile;
@@ -17,19 +20,23 @@ export function Content() {
         return formatNotSelected(selectedFormatInput, selectedFormatOutput);
     };
 
-    const handleSubmit = (e: React.BaseSyntheticEvent) => {
+    const handleSubmit = async (e: React.BaseSyntheticEvent) => {
         // Run validations on form submit to prevent unnecessary spamming during render loops
-        if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) {
-            e.preventDefault(); 
-            return;
-        }
-        if (!differentFormat(selectedFormatInput, selectedFormatOutput)) {
-            e.preventDefault(); 
-            return;
-        }
-        if (!fileNotUploaded(uploadedFile, selectedFormatInput)) {
-            e.preventDefault(); 
-            return;
+        e.preventDefault();
+
+        if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) return;
+        if (!differentFormat(selectedFormatInput, selectedFormatOutput)) return;
+        if (!fileNotUploaded(uploadedFile, selectedFormatInput)) return;
+
+        try {
+            setIsConverting(true);
+            const result = await convertImage(uploadedFile!, selectedFormatOutput);
+            const fullDownloadUrl = getDownloadUrl(result.downloadUrl);
+            window.location.href = fullDownloadUrl; // triggers browser download
+        } catch (err) {
+            alert(err instanceof Error ? err.message : 'Conversion failed. Please try again.');
+        } finally {
+            setIsConverting(false);
         }
     };
 
@@ -52,7 +59,7 @@ export function Content() {
 
             <hr className="wavy-hr"/>
 
-            <form action="/conversion" method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
+            <form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
 
                 <p className='heading'>Select your file type:</p>
 
@@ -62,6 +69,8 @@ export function Content() {
                     selectedFormatOutput={selectedFormatOutput}
                     setSelectedFormatOutput={setSelectedFormatOutput}
                     setUploadedFile={setUploadedFile}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
                 />
 
                 <FileInput 
@@ -85,7 +94,7 @@ export function Content() {
                             return;
                         }
                     }}
-                >Convert</button>
+                >{isConverting ? 'Converting...' : 'Convert'}</button>
             </form>
 
             <div className="wave-divider wave-bottom">
