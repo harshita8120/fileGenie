@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 const convertedFileSchema = new mongoose.Schema({
-  originalName: String,
-  fileType: String,
-  inputFormat: String,
-  outputFormat: String,
+  originalName: { type: String, required: true },
+  fileType: { type: String, required: true },
+  inputFormat: { type: String, required: true },
+  outputFormat: { type: String, required: true },
   storagePath: { type: String, required: true },
-  size: Number,
+  size: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: { type: Date, required: true },
 });

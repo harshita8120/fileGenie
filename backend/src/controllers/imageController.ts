@@ -87,8 +87,13 @@ export const downloadImage = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'File no longer available' });
     }
 
+    if (!doc.originalName) {
+      return res.status(500).json({ error: 'Missing file metadata' });
+    }
+    const nameWithoutExt = path.parse(doc.originalName).name;
+
     res.set('Content-Type', `image/${doc.outputFormat}`);
-    res.set('Content-Disposition', `attachment; filename=${doc.originalName}-converted.${doc.outputFormat}`);
+    res.set('Content-Disposition', `attachment; filename=${nameWithoutExt}-converted.${doc.outputFormat}`);
 
     const readStream = fs.createReadStream(doc.storagePath);
     readStream.pipe(res);
