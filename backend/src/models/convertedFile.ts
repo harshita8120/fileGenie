@@ -5,7 +5,7 @@ const convertedFileSchema = new mongoose.Schema({
   fileType: String,
   inputFormat: String,
   outputFormat: String,
-  storagePath: String,
+  storagePath: { type: String, required: true },
   size: Number,
   createdAt: { type: Date, default: Date.now },
   expiresAt: { type: Date, required: true },
