@@ -52,7 +52,7 @@
     margin: 4vw;
     text-align: center;
 }
-.convert-btn{
+.convert-button, .reset-button{
     background-color: var(--color-white);
     color:var(--color-grayGreen);
     font-family: var(--font-text);
@@ -66,7 +66,10 @@
     margin: 25px auto 0 auto;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.convert-btn:hover {
+.convert-button:hover, .reset-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.reset-button-hidden {
+    display:none;
 }

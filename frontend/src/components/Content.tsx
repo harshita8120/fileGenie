@@ -30,6 +30,13 @@ export function Content() {
         setDownloadFileName(null);
     };
 
+    const handleFormatOutputChange = (format: FileExtension | '') => {
+        setSelectedFormatOutput(format);
+        setStatus('idle');
+        setDownloadUrl(null);
+        setDownloadFileName(null);
+    };
+
     const handleSubmit = async (e: React.BaseSyntheticEvent) => {
         // Run validations on form submit to prevent unnecessary spamming during render loops
         e.preventDefault();
@@ -54,6 +61,15 @@ export function Content() {
             alert(err instanceof Error ? err.message : 'Conversion failed. Please try again.');
             setStatus('idle');
         }
+    };
+
+    const resetAll = () => {
+        setSelectedFormatInput('');
+        setSelectedFormatOutput('');
+        setUploadedFile(null);
+        setStatus('idle');
+        setDownloadUrl(null);
+        setDownloadFileName(null);
     };
 
     const convertedFileName = downloadUrl ? downloadFileName : '';
@@ -85,24 +101,26 @@ export function Content() {
                     selectedFormatInput={selectedFormatInput}
                     setSelectedFormatInput={setSelectedFormatInput}
                     selectedFormatOutput={selectedFormatOutput}
-                    setSelectedFormatOutput={setSelectedFormatOutput}
+                    setSelectedFormatOutput={handleFormatOutputChange}
                     setUploadedFile={handleFileChange}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
+                    disabled={status === 'converting' || status === 'ready'}
                 />
 
                 <FileInput 
                     selectedFormatInput={selectedFormatInput}
                     uploadedFile={uploadedFile}
                     setUploadedFile={handleFileChange}
-                    isUploadDisabled={isUploadDisabled}
+                    isUploadDisabled={isUploadDisabled || status === 'converting'}
                     onUploadClick={handleUploadClick}
                     downloadUrl={downloadUrl}
                     convertedFileName={convertedFileName}
+                    disabled={status === 'converting' || status === 'ready'}
                 />
                 <button 
                     type="submit" 
-                    className={`convert-btn ${isConvertDisabled ? 'disabled' : ''}`}
+                    className={`convert-button ${isConvertDisabled ? 'disabled' : ''}`}
                     onClick={(e) => {
                         if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) {
                             e.preventDefault();
@@ -116,6 +134,14 @@ export function Content() {
                     }}
                 >
                     {status === 'ready' ? 'Download' : status === 'converting' ? 'Converting...' : 'Convert'}
+                </button>
+
+                <button 
+                    type="button" 
+                    className={status!='ready' ? 'reset-button-hidden' : 'reset-button'}
+                    onClick={() => resetAll()}
+                >
+                    Convert another file
                 </button>
             </form>
 
