@@ -7,6 +7,8 @@ import { randomUUID } from 'crypto';
 import { ImageConverter } from '../services/images/imageConverter.js';
 import { ConvertedFile } from '../models/convertedFile.js';
 import {SUPPORTED_INPUT_FORMATS} from '../types/image.types.js';
+import { buildDownloadFileName } from '../utils/fileNaming.js';
+
 
 const TEMP_DIR = path.resolve('temp');
 const EXPIRY_MINUTES = 10;
@@ -57,10 +59,13 @@ export const convertImage = async (req: Request, res: Response) => {
       expiresAt,
     });
 
-    // respond with a download link, not the raw file
+    // respond with a download link
+    const downloadFileName = buildDownloadFileName(file.originalname, targetFormat);
+
     res.status(201).json({
       fileId: doc._id,
       downloadUrl: `/api/images/download/${doc._id}`,
+      downloadFileName,
       expiresAt,
     });
   } catch (err) {
@@ -90,10 +95,11 @@ export const downloadImage = async (req: Request, res: Response) => {
     if (!doc.originalName) {
       return res.status(500).json({ error: 'Missing file metadata' });
     }
-    const nameWithoutExt = path.parse(doc.originalName).name;
-
+  
+    const downloadFileName = buildDownloadFileName(doc.originalName, doc.outputFormat);
+    
     res.set('Content-Type', `image/${doc.outputFormat}`);
-    res.set('Content-Disposition', `attachment; filename=${nameWithoutExt}-converted.${doc.outputFormat}`);
+    res.set('Content-Disposition', `attachment; filename=${downloadFileName}`);
 
     const readStream = fs.createReadStream(doc.storagePath);
     readStream.pipe(res);

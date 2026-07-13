@@ -1,7 +1,7 @@
 import { useState} from 'react';
 import {FileInput} from './FileInput';
 import {FormatSelection} from './FormatSelection';
-import type { FileExtension, FileCategory } from '../types/conversion';
+import type { FileExtension, FileCategory, FileConversionStatus } from '../types/conversion';
 import { differentFormat, formatNotSelected, fileNotUploaded } from '../utils/validation';
 import { convertImage, getDownloadUrl } from '../utils/api';
 import './Content.css';
@@ -11,7 +11,10 @@ export function Content() {
     const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension | ''>('');
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [activeTab, setActiveTab] = useState<FileCategory>('image');
-    const [isConverting, setIsConverting] = useState(false);
+    const [status, setStatus] = useState<FileConversionStatus>('idle');
+    const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+    const [downloadFileName, setDownloadFileName] = useState<string | null>(null);
+
 
     const isUploadDisabled = !selectedFormatInput || !selectedFormatOutput;
     const isConvertDisabled = isUploadDisabled || !uploadedFile;
@@ -20,25 +23,40 @@ export function Content() {
         return formatNotSelected(selectedFormatInput, selectedFormatOutput);
     };
 
+    const handleFileChange = (file: File | null) => {
+        setUploadedFile(file);
+        setStatus('idle');
+        setDownloadUrl(null);
+        setDownloadFileName(null);
+    };
+
     const handleSubmit = async (e: React.BaseSyntheticEvent) => {
         // Run validations on form submit to prevent unnecessary spamming during render loops
         e.preventDefault();
+
+        if (status === 'ready' && downloadUrl) {
+            window.location.href = downloadUrl;
+            return;
+        }
 
         if (!formatNotSelected(selectedFormatInput, selectedFormatOutput)) return;
         if (!differentFormat(selectedFormatInput, selectedFormatOutput)) return;
         if (!fileNotUploaded(uploadedFile, selectedFormatInput)) return;
 
         try {
-            setIsConverting(true);
+            setStatus('converting');
             const result = await convertImage(uploadedFile!, selectedFormatOutput);
             const fullDownloadUrl = getDownloadUrl(result.downloadUrl);
-            window.location.href = fullDownloadUrl; // triggers browser download
+            setDownloadUrl(fullDownloadUrl);
+            setDownloadFileName(result.downloadFileName); 
+            setStatus('ready');
         } catch (err) {
             alert(err instanceof Error ? err.message : 'Conversion failed. Please try again.');
-        } finally {
-            setIsConverting(false);
+            setStatus('idle');
         }
     };
+
+    const convertedFileName = downloadUrl ? downloadFileName : '';
 
     return (
         <div className="content">
@@ -68,7 +86,7 @@ export function Content() {
                     setSelectedFormatInput={setSelectedFormatInput}
                     selectedFormatOutput={selectedFormatOutput}
                     setSelectedFormatOutput={setSelectedFormatOutput}
-                    setUploadedFile={setUploadedFile}
+                    setUploadedFile={handleFileChange}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                 />
@@ -76,9 +94,11 @@ export function Content() {
                 <FileInput 
                     selectedFormatInput={selectedFormatInput}
                     uploadedFile={uploadedFile}
-                    setUploadedFile={setUploadedFile}
+                    setUploadedFile={handleFileChange}
                     isUploadDisabled={isUploadDisabled}
                     onUploadClick={handleUploadClick}
+                    downloadUrl={downloadUrl}
+                    convertedFileName={convertedFileName}
                 />
                 <button 
                     type="submit" 
@@ -94,7 +114,9 @@ export function Content() {
                             return;
                         }
                     }}
-                >{isConverting ? 'Converting...' : 'Convert'}</button>
+                >
+                    {status === 'ready' ? 'Download' : status === 'converting' ? 'Converting...' : 'Convert'}
+                </button>
             </form>
 
             <div className="wave-divider wave-bottom">

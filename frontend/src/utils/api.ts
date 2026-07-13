@@ -3,6 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4500/api'
 export interface ConvertImageResponse {
   fileId: string;
   downloadUrl: string;
+  downloadFileName: string;
   expiresAt: string;
 }
 
@@ -27,6 +28,9 @@ export const convertImage = async (
   return res.json();
 };
 
-export const getDownloadUrl = (downloadUrl: string): string => {
-  return `${API_BASE_URL.replace('/api', '')}${downloadUrl}`;
+export const getDownloadUrl = (downloadUrl: string): string | null => {
+  if(downloadUrl!=null){
+    return `${API_BASE_URL.replace('/api', '')}${downloadUrl}`;
+  }
+  return null;
 };

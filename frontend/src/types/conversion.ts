@@ -6,6 +6,8 @@ export type AudioExtension = '.mp3' | '.wav' | '.flac' | '.aac';
 
 export type FileExtension = ImageExtension | DocumentExtension | AudioExtension;
 
+export type FileConversionStatus = 'idle' | 'converting' | 'ready';
+
 export interface DropdownConfig {
     id: 'inputFile' | 'outputFile';
     label: string;

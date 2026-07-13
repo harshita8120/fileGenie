@@ -29,22 +29,27 @@
 }
 
 /* upload and replace icon */
-.upload-icon {
-    width: 48px;
-    height: 48px;
+.upload-icon, .replace-icon, .download-done-icon {
     fill: #ffffff;
-    margin-bottom: 8px;
     transition: transform 0.25s ease;
 }
-.upload-icon-hidden, .replace-icon-hidden{
+.upload-icon-hidden, .replace-icon-hidden, .download-done-icon-hidden{
     display: none;
+}
+.upload-icon{
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
 }
 .replace-icon {
     width: 44px;
     height: 44px;
-    fill: #ffffff;
     margin: 10px 0 1px 0;
-    transition: transform 0.25s ease;
+}
+.download-done-icon {
+    width: 34px;
+    height: 34px;
+    margin: 16px 0 0 0;
 }
 
 .custom-upload-box:hover .upload-icon {
