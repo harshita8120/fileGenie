@@ -1,7 +1,7 @@
 export type ImageFormat =
   | 'jpeg' | 'jpg' | 'png' | 'webp' | 'avif' | 'tiff' | 'gif';
 
-export const SUPPORTED_INPUT_FORMATS: string[] = [
+export const SUPPORTED_IMAGE_INPUT_FORMATS: string[] = [
   'jpeg', 'jpg', 'png', 'webp', 'avif', 'tiff', 'gif', 'bmp', 'heif', 'heic',
 ];
 
@@ -13,7 +13,7 @@ export interface ImageConversionOptions {
   fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside';
 }
 
-export interface ConversionRequestBody {
+export interface ImageConversionRequestBody {
   targetFormat: ImageFormat;
   width?: string;
   height?: string;

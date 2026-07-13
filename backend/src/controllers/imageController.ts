@@ -6,7 +6,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { ImageConverter } from '../services/images/imageConverter.js';
 import { ConvertedFile } from '../models/convertedFile.js';
-import {SUPPORTED_INPUT_FORMATS} from '../types/image.types.js';
+import {SUPPORTED_IMAGE_INPUT_FORMATS} from '../types/image.types.js';
 import { buildDownloadFileName } from '../utils/fileNaming.js';
 
 
@@ -29,7 +29,7 @@ export const convertImage = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid image file' });
     }
 
-    if (!SUPPORTED_INPUT_FORMATS.includes(detected.ext)) {
+    if (!SUPPORTED_IMAGE_INPUT_FORMATS.includes(detected.ext)) {
       return res.status(400).json({
         error: `Input format .${detected.ext} is not supported for conversion`,
       });
