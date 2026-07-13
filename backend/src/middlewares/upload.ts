@@ -3,7 +3,7 @@ import { Request } from 'express';
 
 const storage = multer.memoryStorage();
 
-const fileFilter = (
+const ImageFileFilter = (
   _req: Request,//deliberately ununsed
   file: Express.Multer.File,
   cb: FileFilterCallback
@@ -15,12 +15,31 @@ const fileFilter = (
   }
 };
 
-const upload = multer({
+const AudioFileFilter = (
+  _req: Request,//deliberately ununsed
+  file: Express.Multer.File,
+  cb: FileFilterCallback
+) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);//null=no error; true=accept this file
+  } else {
+    cb(new Error('Only image files are allowed'));
+  }
+};
+
+
+export const uploadImage = multer({
   storage,
-  fileFilter,
+  fileFilter: ImageFileFilter,
   limits: {
     fileSize: 15 * 1024 * 1024, // 15MB
   },
 });
 
-export default upload;
+export const uploadAudio = multer({
+  storage,
+  fileFilter: AudioFileFilter,
+  limits: {
+    fileSize: 50 * 1024 * 1024, // 50MB
+  },
+});
