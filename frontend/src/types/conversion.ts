@@ -2,7 +2,7 @@ export type FileCategory = 'image' | 'document' | 'audio';
 
 export type ImageExtension = '.jpeg'| '.jpg' | '.png' | '.webp'| '.avif'| '.tiff' | '.gif';
 export type DocumentExtension = '.docx' | '.pptx' | '.pdf';
-export type AudioExtension = '.mp3' | '.wav' | '.flac' | '.aac';
+export type AudioExtension = '.mp3' | '.wav' | '.flac' | '.aac' | '.ogg' | '.m4a' | '.opus';
 
 export type FileExtension = ImageExtension | DocumentExtension | AudioExtension;
 

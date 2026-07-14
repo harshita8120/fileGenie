@@ -105,7 +105,7 @@ export function Content() {
                     setUploadedFile={handleFileChange}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
-                    isUploadDisabled={isUploadDisabled || status === 'converting' || status === 'ready'}
+                    disabled={status === 'converting' || status === 'ready' }
                 />
 
                 <FileInput 
