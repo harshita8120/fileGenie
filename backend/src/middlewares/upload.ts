@@ -20,10 +20,10 @@ const AudioFileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback
 ) => {
-  if (file.mimetype.startsWith('image/')) {
+  if (file.mimetype.startsWith('audio/')) {
     cb(null, true);//null=no error; true=accept this file
   } else {
-    cb(new Error('Only image files are allowed'));
+    cb(new Error('Only audio files are allowed'));
   }
 };
 

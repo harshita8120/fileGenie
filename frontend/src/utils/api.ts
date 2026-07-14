@@ -22,8 +22,19 @@ export const convertFile = async (
   });
 
   if (!res.ok) {
-    const errorData = await res.json();
-    throw new Error(errorData.error || 'Conversion failed');
+    const errorText = await res.text();
+    let errorMessage = 'Conversion failed';
+    
+    try {
+      const errorData = JSON.parse(errorText);
+      errorMessage = errorData.error || errorMessage;
+    } catch {
+      // If it's HTML, extract text or fall back to the status text
+      errorMessage = `Server Error (${res.status}): ${res.statusText}`;
+      console.error("Backend HTML Error Page Summary:", errorText.substring(0, 300));
+    }
+    
+    throw new Error(errorMessage);
   }
 
   return res.json();
