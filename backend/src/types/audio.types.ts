@@ -1,5 +1,5 @@
 export type AudioFormat =
-  | 'mp3' | 'wav' | 'flac' | 'aac' | 'ogg' | 'm4a';
+  | 'mp3' | 'wav' | 'flac' | 'aac' | 'ogg' | 'm4a' | 'opus';
 
 export const SUPPORTED_AUDIO_INPUT_FORMATS: string[] = [
   'mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'wma', 'opus',

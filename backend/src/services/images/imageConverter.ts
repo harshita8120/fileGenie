@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { ImageFormat, ImageConversionOptions } from '../../types/image.types.js';
 
-const SUPPORTED_FORMATS: ImageFormat[] = [
+const SUPPORTED_IMAGE_FORMATS: ImageFormat[] = [
   'jpeg', 'jpg', 'png', 'webp', 'avif', 'tiff', 'gif',
 ];
 
@@ -15,7 +15,7 @@ export class ImageConverter {
   }
 
   private validateTargetFormat(targetFormat: ImageFormat): void {
-    if (!SUPPORTED_FORMATS.includes(targetFormat)) {
+    if (!SUPPORTED_IMAGE_FORMATS.includes(targetFormat)) {
       throw new Error(`Unsupported target format: ${targetFormat}`);
     }
   }
