@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { fileTypeFromBuffer } from 'file-type'; //checks the actual file type irrespective of extension
 import fsPromises from 'fs/promises';
-import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { ImageConverter } from '../services/images/imageConverter.js';
@@ -71,40 +70,5 @@ export const convertImage = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err instanceof Error ? err.message : 'Conversion failed' });
-  }
-};
-
-export const downloadImage = async (req: Request, res: Response) => {
-  try {
-    const { fileId } = req.params;
-
-    const doc = await ConvertedFile.findById(fileId);
-
-    if (!doc) {
-      return res.status(404).json({ error: 'File not found or link invalid' });
-    }
-
-    if (doc.expiresAt < new Date()) {
-      return res.status(410).json({ error: 'This download link has expired' });
-    }
-
-    if (!fs.existsSync(doc.storagePath)) {
-      return res.status(404).json({ error: 'File no longer available' });
-    }
-
-    if (!doc.originalName) {
-      return res.status(500).json({ error: 'Missing file metadata' });
-    }
-  
-    const downloadFileName = buildDownloadFileName(doc.originalName, doc.outputFormat);
-    
-    res.set('Content-Type', `image/${doc.outputFormat}`);
-    res.set('Content-Disposition', `attachment; filename=${downloadFileName}`);
-
-    const readStream = fs.createReadStream(doc.storagePath);
-    readStream.pipe(res);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Download failed' });
   }
 };
