@@ -3,7 +3,7 @@ import {FileInput} from './FileInput';
 import {FormatSelection} from './FormatSelection';
 import type { FileExtension, FileCategory, FileConversionStatus } from '../types/conversion';
 import { differentFormat, formatNotSelected, fileNotUploaded } from '../utils/validation';
-import { convertImage, getDownloadUrl } from '../utils/api';
+import { convertFile, getDownloadUrl } from '../utils/api';
 import './Content.css';
 
 export function Content() {
@@ -52,7 +52,7 @@ export function Content() {
 
         try {
             setStatus('converting');
-            const result = await convertImage(uploadedFile!, selectedFormatOutput);
+            const result = await convertFile(activeTab, uploadedFile!, selectedFormatOutput);
             const fullDownloadUrl = getDownloadUrl(result.downloadUrl);
             setDownloadUrl(fullDownloadUrl);
             setDownloadFileName(result.downloadFileName); 
@@ -105,18 +105,17 @@ export function Content() {
                     setUploadedFile={handleFileChange}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
-                    disabled={status === 'converting' || status === 'ready'}
+                    isUploadDisabled={isUploadDisabled || status === 'converting' || status === 'ready'}
                 />
 
                 <FileInput 
                     selectedFormatInput={selectedFormatInput}
                     uploadedFile={uploadedFile}
                     setUploadedFile={handleFileChange}
-                    isUploadDisabled={isUploadDisabled || status === 'converting'}
+                    isUploadDisabled={isUploadDisabled || status === 'converting' || status === 'ready'}
                     onUploadClick={handleUploadClick}
                     downloadUrl={downloadUrl}
                     convertedFileName={convertedFileName}
-                    disabled={status === 'converting' || status === 'ready'}
                 />
                 <button 
                     type="submit" 

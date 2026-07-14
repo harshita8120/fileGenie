@@ -9,7 +9,6 @@ interface FileInputProps {
     onUploadClick: () => boolean;
     downloadUrl: string | null;
     convertedFileName: string | null;
-    disabled: boolean;
 }
 
 
@@ -22,7 +21,6 @@ export function FileInput({
     onUploadClick,
     downloadUrl,
     convertedFileName, 
-    disabled
 }: FileInputProps){
     return (
         <div className={`upload-container ${isUploadDisabled ? 'disabled' : ''}`}>
@@ -71,7 +69,7 @@ export function FileInput({
                 id="file-upload" 
                 name="file-upload" 
                 className="hidden-input" 
-                disabled={isUploadDisabled || disabled}
+                disabled={isUploadDisabled}
                 accept={selectedFormatInput}
                 onChange={(e) => {
                     const file = e.target.files?.[0] || null;

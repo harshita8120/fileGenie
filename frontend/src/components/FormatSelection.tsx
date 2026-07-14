@@ -10,7 +10,7 @@ interface FormatSelectionProps {
     setUploadedFile: (file: File | null) => void;
     activeTab: FileCategory | 'image';
     setActiveTab: (tab: FileCategory) => void;
-    disabled: boolean;
+    isUploadDisabled: boolean;
 }
 
 export function FormatSelection({
@@ -21,7 +21,7 @@ export function FormatSelection({
     setUploadedFile,
     activeTab,
     setActiveTab,
-    disabled
+    isUploadDisabled
 }: FormatSelectionProps) {
 
     
@@ -94,7 +94,7 @@ export function FormatSelection({
                     type="button"
                     className={`mode-card ${activeTab === 'image' ? 'active' : 'inactive'}`}
                     onClick={() => handleTabChange('image')}
-                    disabled={disabled}
+                    disabled={isUploadDisabled}
                 >Image
                 </button>
                 
@@ -102,7 +102,7 @@ export function FormatSelection({
                     type="button"
                     className={`mode-card ${activeTab === 'document' ? 'active' : 'inactive'}`}
                     onClick={() => handleTabChange('document')}
-                    disabled={disabled}
+                    disabled={isUploadDisabled}
                 >Document
                 </button>
 
@@ -110,7 +110,7 @@ export function FormatSelection({
                     type="button"
                     className={`mode-card ${activeTab === 'audio' ? 'active' : 'inactive'}`}
                     onClick={() => handleTabChange('audio')}
-                    disabled={disabled}
+                    disabled={isUploadDisabled}
                 >Audio
                 </button>
             </div>
@@ -123,7 +123,7 @@ export function FormatSelection({
                         <div className='dropdown-wrapper' ref={dropdown.ref}>
                             <input type="hidden" name={dropdown.id} value={dropdown.selected} />
                             
-                            <div className='dropdown-selector-box' onClick={() => !disabled && dropdown.setIsOpen(!dropdown.isOpen)}>
+                            <div className='dropdown-selector-box' onClick={() => !isUploadDisabled && dropdown.setIsOpen(!dropdown.isOpen)}>
                                 {dropdown.selected === '' ? dropdown.placeholder : dropdown.selected}
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>

@@ -1,21 +1,22 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4500/api';
 
-export interface ConvertImageResponse {
+export interface ConvertFileResponse {
   fileId: string;
   downloadUrl: string;
   downloadFileName: string;
   expiresAt: string;
 }
 
-export const convertImage = async (
+export const convertFile = async (
+  fileType: 'image' | 'document' | 'audio',
   file: File,
   targetFormat: string
-): Promise<ConvertImageResponse> => {
+): Promise<ConvertFileResponse> => {
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append(fileType, file);
   formData.append('targetFormat', targetFormat.replace('.', ''));
 
-  const res = await fetch(`${API_BASE_URL}/images/convert`, {
+  const res = await fetch(`${API_BASE_URL}/${fileType}s/convert`, {
     method: 'POST',
     body: formData,
   });
