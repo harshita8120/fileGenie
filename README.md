@@ -28,7 +28,9 @@ FileGenie is a fast, secure, full-stack web application designed for hassle-free
 - **multer** handles multipart/form-data parsing and file upload middleware for Express.
 - **file-type** does the actual binary/magic-byte detection for verifying real file types.
 - **node-cron** powers the cleanup job's scheduling.
-- **tsx** dev-time TS runner.
+- **tsx** is the dev-time TS runner.
+- **ffmpeg-static** yet to be written.
+- **child_Process** yet to be written.
 
 ## Project Structure
 
