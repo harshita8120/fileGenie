@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { ImageConvertRouter } from './routes/imageRoutes.js';
+import { AudioConvertRouter } from './routes/audioRoutes.js';
 import './jobs/cleanUp.js'; // starts the cron job as a side effect of importing it
 
 dotenv.config();
@@ -19,16 +20,17 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api/images', ImageConvertRouter);
+app.use('/api/audios', AudioConvertRouter);
 
 // ensure required folders exist before accepting any requests
 const TEMP_DIR = path.resolve('temp');
-const AUDIO_SCRATCH_DIR = path.join(TEMP_DIR, 'scratch', 'audio');
+const SCRATCH_DIR = path.join(TEMP_DIR, 'scratch', 'audio');
 
 if (!fs.existsSync(TEMP_DIR)) {
   fs.mkdirSync(TEMP_DIR);
 }
-if (!fs.existsSync(AUDIO_SCRATCH_DIR)) {
-  fs.mkdirSync(AUDIO_SCRATCH_DIR, { recursive: true });
+if (!fs.existsSync(SCRATCH_DIR)) {
+  fs.mkdirSync(SCRATCH_DIR, { recursive: true });
 }
 
 mongoose
