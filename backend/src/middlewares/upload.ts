@@ -27,6 +27,24 @@ const AudioFileFilter = (
   }
 };
 
+const ALLOWED_DOCUMENT_MIME_TYPES = [
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
+  'application/pdf', // .pdf
+];
+
+const DocumentFileFilter = (
+  _req: Request,//deliberately ununsed
+  file: Express.Multer.File,
+  cb: FileFilterCallback
+) => {
+  if (ALLOWED_DOCUMENT_MIME_TYPES.includes(file.mimetype)) {
+    cb(null, true);//null=no error; true=accept this file
+  } else {
+    cb(new Error('Only document files (DOCX, PPTX, PDF) are allowed'));
+  }
+};
+
 
 export const uploadImage = multer({
   storage,
@@ -39,6 +57,14 @@ export const uploadImage = multer({
 export const uploadAudio = multer({
   storage,
   fileFilter: AudioFileFilter,
+  limits: {
+    fileSize: 50 * 1024 * 1024, // 50MB
+  },
+});
+
+export const uploadDocument = multer({
+  storage,
+  fileFilter: DocumentFileFilter,
   limits: {
     fileSize: 50 * 1024 * 1024, // 50MB
   },
