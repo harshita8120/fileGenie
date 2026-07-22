@@ -1,7 +1,7 @@
 export type DocumentFormat =
   'docx' | 'pptx' | 'pdf' | 'txt' | 'xlsx';
 
-export const SUPPORTED_IMAGE_Document_FORMATS: string[] = [
+export const SUPPORTED_DOCUMENT_INPUT_FORMATS: string[] = [
   'docx', 'pptx', 'txt', 'xlsx', 'doc', 'ppt', 'xls',
 ] as const;
 
