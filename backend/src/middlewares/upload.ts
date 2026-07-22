@@ -31,6 +31,8 @@ const ALLOWED_DOCUMENT_MIME_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
   'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
   'application/pdf', // .pdf
+  'text/plain', // .txt
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
 ];
 
 const DocumentFileFilter = (

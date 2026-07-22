@@ -1,8 +1,8 @@
 export type DocumentFormat =
-  | 'docx' | 'pptx' | 'pdf';
+  'docx' | 'pptx' | 'pdf' | 'txt' | 'xlsx';
 
 export const SUPPORTED_IMAGE_Document_FORMATS: string[] = [
-  'docx', 'pptx', 'pdf', 'doc', 'ppt',
+  'docx', 'pptx', 'txt', 'xlsx', 'doc', 'ppt', 'xls',
 ] as const;
 
 export interface DocumentConversionOptions {
