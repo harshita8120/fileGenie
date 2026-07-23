@@ -1,8 +1,8 @@
-import type { FileExtension } from '../types/conversion';
+import type { FileExtension_INPUT } from '../types/conversion';
 import './FileInput.css';
 
 interface FileInputProps {
-    selectedFormatInput: FileExtension | '';
+    selectedFormatInput: FileExtension_INPUT | '';
     uploadedFile: File | null;
     setUploadedFile: (file: File | null) => void;
     isUploadDisabled: boolean;
@@ -10,8 +10,6 @@ interface FileInputProps {
     downloadUrl: string | null;
     convertedFileName: string | null;
 }
-
-
 
 export function FileInput({ 
     selectedFormatInput, 
