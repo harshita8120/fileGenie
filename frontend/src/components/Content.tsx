@@ -1,14 +1,14 @@
 import { useState} from 'react';
 import {FileInput} from './FileInput';
 import {FormatSelection} from './FormatSelection';
-import type { FileExtension, FileCategory, FileConversionStatus } from '../types/conversion';
+import type {  FileCategory, FileConversionStatus, FileExtension_INPUT, FileExtension_OUTPUT } from '../types/conversion';
 import { differentFormat, formatNotSelected, fileNotUploaded } from '../utils/validation';
 import { convertFile, getDownloadUrl } from '../utils/api';
 import './Content.css';
 
 export function Content() {
-    const [selectedFormatInput, setSelectedFormatInput] = useState<FileExtension | ''>('');
-    const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension | ''>('');
+    const [selectedFormatInput, setSelectedFormatInput] = useState<FileExtension_INPUT | ''>('');
+    const [selectedFormatOutput, setSelectedFormatOutput] = useState<FileExtension_OUTPUT | ''>('');
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [activeTab, setActiveTab] = useState<FileCategory>('image');
     const [status, setStatus] = useState<FileConversionStatus>('idle');
@@ -30,7 +30,7 @@ export function Content() {
         setDownloadFileName(null);
     };
 
-    const handleFormatOutputChange = (format: FileExtension | '') => {
+    const handleFormatOutputChange = (format: FileExtension_OUTPUT | '') => {
         setSelectedFormatOutput(format);
         setStatus('idle');
         setDownloadUrl(null);

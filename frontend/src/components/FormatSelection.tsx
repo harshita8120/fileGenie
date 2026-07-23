@@ -1,17 +1,22 @@
 import { useState, useEffect, useRef, Fragment } from 'react';
-import type { FileCategory, FileExtension, ImageExtension, DocumentExtension, AudioExtension, DropdownConfig } from '../types/conversion';
+import type { FileCategory, ImageExtension, AudioExtension, DocumentInputExtension, DocumentOutputExtension, FileExtension_INPUT, FileExtension_OUTPUT, DropdownConfig } from '../types/conversion';
 import './FormatSelection.css';
 
 interface FormatSelectionProps {
-    selectedFormatInput: FileExtension | '';
-    setSelectedFormatInput: (format: FileExtension | '') => void;
-    selectedFormatOutput: FileExtension | '';
-    setSelectedFormatOutput: (format: FileExtension | '') => void;
+    selectedFormatInput: FileExtension_INPUT | '';
+    setSelectedFormatInput: (format: FileExtension_INPUT | '') => void;
+    selectedFormatOutput: FileExtension_OUTPUT | '';
+    setSelectedFormatOutput: (format: FileExtension_OUTPUT | '') => void;
     setUploadedFile: (file: File | null) => void;
     activeTab: FileCategory | 'image';
     setActiveTab: (tab: FileCategory) => void;
     disabled: boolean;
 }
+
+const imageFormats: ImageExtension[] = ['.jpeg', '.jpg', '.png', '.webp', '.avif', '.tiff', '.gif'];
+const audioFormats: AudioExtension[] = ['.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a', '.opus'];
+const documentFormats_INPUTS: DocumentInputExtension[] = ['.docx', '.pptx', '.xlsx', '.txt'];
+const documentFormats_OUTPUTS: DocumentOutputExtension[] = ['.pdf'];
 
 export function FormatSelection({
     selectedFormatInput,
@@ -23,16 +28,12 @@ export function FormatSelection({
     setActiveTab,
     disabled
 }: FormatSelectionProps) {
-
-    
+   
     const [isOpenInput, setIsOpenInput] = useState<boolean>(false);
     const [isOpenOutput, setIsOpenOutput] = useState<boolean>(false);
-
-    const imageFormats: ImageExtension[] = ['.jpeg', '.jpg', '.png', '.webp', '.avif', '.tiff', '.gif'];
-    const documentFormats: DocumentExtension[] = ['.docx', '.pptx', '.pdf'];
-    const audioFormats: AudioExtension[] = ['.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a', '.opus'];
-
-    const currentFormats: FileExtension[] = activeTab === 'image' ? imageFormats : activeTab === 'document' ? documentFormats : audioFormats;
+    
+    const getInputFormats: FileExtension_INPUT[] = activeTab === 'image' ? imageFormats : activeTab === 'document' ? documentFormats_INPUTS : audioFormats;
+    const getOutputFormats: FileExtension_OUTPUT[] = activeTab === 'image' ? imageFormats : activeTab === 'document' ? documentFormats_OUTPUTS : audioFormats;
 
     const inputDropdownRef = useRef<HTMLDivElement>(null);
     const outputDropdownRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,12 @@ export function FormatSelection({
         setIsOpenOutput(false);
         setSelectedFormatOutput('');
         setUploadedFile(null);
+
+        if (tabName === 'document') {
+            setSelectedFormatOutput('.pdf');
+        } else {
+            setSelectedFormatOutput('');
+        }
     };
 
     // Global click listener to close dropdowns when clicking outside
@@ -72,8 +79,9 @@ export function FormatSelection({
             isOpen: isOpenInput,
             setIsOpen: setIsOpenInput,
             selected: selectedFormatInput,
-            setSelected: (format: FileExtension) => setSelectedFormatInput(format),
-            ref: inputDropdownRef
+            setSelected: (format) => setSelectedFormatInput(format as FileExtension_INPUT),
+            ref: inputDropdownRef,
+            options: getInputFormats
         },
         {
             id: 'outputFile',
@@ -82,8 +90,9 @@ export function FormatSelection({
             isOpen: isOpenOutput,
             setIsOpen: setIsOpenOutput,
             selected: selectedFormatOutput,
-            setSelected: (format: FileExtension) => setSelectedFormatOutput(format),
-            ref: outputDropdownRef
+            setSelected: (format) => setSelectedFormatOutput(format as FileExtension_OUTPUT),
+            ref: outputDropdownRef,
+            options: getOutputFormats
         }
     ];
 
@@ -133,7 +142,7 @@ export function FormatSelection({
                             {dropdown.isOpen && (
                                 <div className="dropdown-list">
                                     <ul>
-                                        {currentFormats.map((format) => (
+                                        {dropdown.options.map((format) => (
                                             <li 
                                                 key={format} 
                                                 className="dropdown-item"
