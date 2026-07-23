@@ -15,9 +15,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4500;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/filegenie';
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'];
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
 }));
 app.use(express.json());
 
