@@ -22,7 +22,7 @@ FileGenie is a fast, secure, full-stack web application for hassle-free file for
 
 ---
 
-## Libraries
+## Core Libraries
 
 - **sharp** does the actual image conversions, built on libvips.
 - **multer** handles multipart/form-data parsing and file upload middleware for Express.
