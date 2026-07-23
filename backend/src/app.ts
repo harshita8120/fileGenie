@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { ImageConvertRouter } from './routes/imageRoutes.js';
 import { AudioConvertRouter } from './routes/audioRoutes.js';
+import { DocumentConvertRouter } from './routes/documentRoutes.js';
 import './jobs/cleanUp.js'; // starts the cron job as a side effect of importing it
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/images', ImageConvertRouter);
 app.use('/api/audios', AudioConvertRouter);
+app.use('/api/documents', DocumentConvertRouter);
 
 // ensure required folders exist before accepting any requests
 const TEMP_DIR = path.resolve('temp');
